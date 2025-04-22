@@ -38,7 +38,7 @@ const productSchema = new mongoose.Schema({
             values: [
                 "Electronics",
                 "Cameras",
-                "Laptos",
+                "Laptops",
                 "Accessories",
                 "Headphones",
                 "Food",
@@ -47,8 +47,8 @@ const productSchema = new mongoose.Schema({
                 "Outdoor",
                 "Home"
             ],
-            message: "Please select correct category"
-        }
+            message: "Please select correct category",
+        },
     },
     seller: {
         type: String,
