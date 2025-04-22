@@ -1,8 +1,11 @@
 import Product from "../models/productModel.js"
+
+// Get all the products
 export const getProducts = async (req, res) => {
+    const products = await Product.find();
     res.status(200).json({
-        message: "All products"
-    });
+        products
+    })
 };
 
 // Create new product => /api/v1/admin/products
