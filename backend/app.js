@@ -10,6 +10,8 @@ import { connectedDatabase } from "./config/dbConnect.js";
 // connecting to database
 connectedDatabase()
 
+app.use(express.json())
+
 // import all routes 
 import productRoutes from './routes/productRoutes.js'
 
