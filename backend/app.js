@@ -4,6 +4,7 @@ const app = express();
 import dotenv from 'dotenv';
 dotenv.config({ path: "backend/config/config.env" })
 import { connectedDatabase } from "./config/dbConnect.js";
+import errorMiddleware from "./middlewares/errors.js"
 
 
 
@@ -17,6 +18,8 @@ import productRoutes from './routes/productRoutes.js'
 
 app.use("/api/v1", productRoutes)
 
+// Using error middleware 
+app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode.`)

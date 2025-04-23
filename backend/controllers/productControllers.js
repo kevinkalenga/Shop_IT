@@ -1,4 +1,5 @@
-import Product from "../models/productModel.js"
+import Product from "../models/productModel.js";
+import ErrorHandler from "../utils/errorHandler.js"
 
 // Get all the products
 export const getProducts = async (req, res) => {
@@ -17,13 +18,11 @@ export const newProduct = async (req, res) => {
     })
 };
 // Get Single product details => /api/v1/products/:id
-export const getProductDetails = async (req, res) => {
+export const getProductDetails = async (req, res, next) => {
     const product = await Product.findById(req?.params?.id)
 
     if (!product) {
-        return res.status(404).json({
-            error: "Product not found",
-        });
+        return next(new ErrorHandler("Produc not found", 404))
     }
 
     res.status(200).json({
@@ -39,7 +38,7 @@ export const updateProduct = async (req, res) => {
             error: "Product not found",
         });
     }
-
+    // The optional chaining ?. is a safe way to access nested object properties, even if an intermediate property doesn’t exist.
     product = await Product.findByIdAndUpdate(req?.params?.id, req.body, {
         new: true
     })
