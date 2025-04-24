@@ -22,7 +22,7 @@ class APIFilters {
         const queryCopy = { ...this.queryStr };
 
         // Fields to remove because we've already got the keyword in the search 
-        const fieldsToRemove = ["keyword"]
+        const fieldsToRemove = ["keyword", "page"]
         fieldsToRemove.forEach((el) => delete queryCopy[el])
 
 
@@ -49,6 +49,15 @@ class APIFilters {
 
     getQuery() {
         return this.query;
+    }
+
+    // Pagination
+    pagination(resPerPage) {
+        const currentPage = Number(this.queryStr.page) || 1;
+        const skip = resPerPage * (currentPage - 1)
+
+        this.query = this.query.limit(resPerPage).skip(skip);
+        return this;
     }
 }
 

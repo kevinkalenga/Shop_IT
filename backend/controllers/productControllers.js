@@ -6,6 +6,8 @@ import qs from 'qs';
 
 // Get all the products
 export const getProducts = catchAsyncErrors(async (req, res) => {
+
+    const resPerPage = 4
     const parsedQuery = qs.parse(req._parsedUrl.query); // on parse manuellement
     // we have to pass the query and queryStr from the constructor
     console.log("Requête reçue :", req.query);
@@ -15,7 +17,11 @@ export const getProducts = catchAsyncErrors(async (req, res) => {
     let products = await apiFilters.getQuery();
     let filteredProductsCount = products.length
 
+    apiFilters.pagination(resPerPage)
+    products = await apiFilters.query.clone()
+
     res.status(200).json({
+        resPerPage,
         filteredProductsCount,
         products
     })
