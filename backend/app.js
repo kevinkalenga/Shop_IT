@@ -20,8 +20,10 @@ app.use(express.json())
 
 // import all routes 
 import productRoutes from './routes/productRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 app.use("/api/v1", productRoutes)
+app.use("/api/v1", authRoutes)
 
 // Using error middleware 
 app.use(errorMiddleware);
