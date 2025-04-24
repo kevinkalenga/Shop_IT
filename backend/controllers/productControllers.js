@@ -11,7 +11,7 @@ export const getProducts = catchAsyncErrors(async (req, res) => {
     const parsedQuery = qs.parse(req._parsedUrl.query); // on parse manuellement
     // we have to pass the query and queryStr from the constructor
     console.log("Requête reçue :", req.query);
-    // const apiFilters = new APIFilters(Product.find(), req.query).search().filters()
+
     const apiFilters = new APIFilters(Product.find(), parsedQuery).search().filters()
 
     let products = await apiFilters.getQuery();
