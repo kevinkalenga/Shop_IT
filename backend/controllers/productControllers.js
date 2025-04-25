@@ -12,7 +12,8 @@ export const getProducts = catchAsyncErrors(async (req, res) => {
     // we have to pass the query and queryStr from the constructor
     console.log("Requête reçue :", req.query);
 
-    const apiFilters = new APIFilters(Product.find(), parsedQuery).search().filters()
+    const apiFilters = new APIFilters(Product.find(), parsedQuery).search().filters();
+
 
     let products = await apiFilters.getQuery();
     let filteredProductsCount = products.length
