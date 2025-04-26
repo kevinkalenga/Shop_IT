@@ -7,7 +7,8 @@ import {
     logoutUser,
     forgotPassword,
     resetPassword,
-    getUserProfile
+    getUserProfile,
+    updatePassword
 } from "../controllers/authControllers.js";
 
 
@@ -19,6 +20,7 @@ router.route("/password/forgot").post(forgotPassword)
 router.route("/password/reset/:token").put(resetPassword)
 
 router.route("/me").get(isAuthenticatedUser, getUserProfile)
+router.route("/password/update").put(isAuthenticatedUser, updatePassword)
 
 
 export default router
