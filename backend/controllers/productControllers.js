@@ -90,7 +90,7 @@ export const deleteProduct = catchAsyncErrors(async (req, res) => {
     })
 });
 // Create/Update product review => /api/v1/reviews
-export const createProductReview = catchAsyncErrors(async (req, res) => {
+export const createProductReview = catchAsyncErrors(async (req, res, next) => {
 
     const { rating, comment, productId } = req.body
 
@@ -131,3 +131,17 @@ export const createProductReview = catchAsyncErrors(async (req, res) => {
         success: true,
     })
 });
+
+// Get product reviews => /api/v1/reviews 
+export const getProductReviews = catchAsyncErrors(async (req, res, next) => {
+    const product = await Product.findById(req.query.id)
+
+    if (!product) {
+        return next(new ErrorHandler("Product not found", 400))
+    }
+
+    res.status(200).json({
+        reviews: product.reviews,
+    })
+
+})
