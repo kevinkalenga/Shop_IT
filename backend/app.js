@@ -5,7 +5,8 @@ import dotenv from 'dotenv';
 dotenv.config({ path: "backend/config/config.env" });
 import cookieParser from "cookie-parser"
 import { connectedDatabase } from "./config/dbConnect.js";
-import errorMiddleware from "./middlewares/errors.js"
+import errorMiddleware from "./middlewares/errors.js";
+import { normalizeQuery } from './middlewares/normalizeQuery.js'
 
 // Handle Uncought exceptions 
 process.on('uncaughtException', (err) => {
@@ -19,6 +20,9 @@ connectedDatabase()
 
 app.use(express.json())
 app.use(cookieParser())
+
+// Après avoir initialisé express()
+app.use(normalizeQuery);
 
 // import all routes 
 import productRoutes from './routes/productRoutes.js'
