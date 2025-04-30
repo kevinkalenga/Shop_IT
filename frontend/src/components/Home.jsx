@@ -1,13 +1,18 @@
 import React from 'react';
 import MetaData from "./layout/MetaData";
 import { useGetProductsQuery } from "../redux/api/productsApi";
-import ProductItem from "./product/ProductItem"
+import ProductItem from "./product/ProductItem";
+import Loader from './layout/Loader';
 
 
 const Home = () => {
 
     const { data, isLoading } = useGetProductsQuery();
     console.log(data)
+
+    if (isLoading) return <Loader />
+
+
 
     return (
         <>
