@@ -5,7 +5,7 @@ import APIFilters from "../utils/apiFilter.js"
 import qs from 'qs';
 
 // Get all the products
-export const getProducts = catchAsyncErrors(async (req, res) => {
+export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
     const resPerPage = 4
 
@@ -21,6 +21,8 @@ export const getProducts = catchAsyncErrors(async (req, res) => {
 
     let products = await apiFilters.getQuery();
     let filteredProductsCount = products.length
+
+
 
     apiFilters.pagination(resPerPage)
     products = await apiFilters.query.clone()
