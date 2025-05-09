@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser"
 import { connectedDatabase } from "./config/dbConnect.js";
 import errorMiddleware from "./middlewares/errors.js";
 import { normalizeQuery } from './middlewares/normalizeQuery.js'
+import qs from "qs";
 
 // Handle Uncought exceptions 
 process.on('uncaughtException', (err) => {
@@ -21,6 +22,12 @@ connectedDatabase()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+
+app.use((req, res, next) => {
+    const parsedQuery = qs.parse(req._parsedUrl.query);
+    req.parsedQuery = parsedQuery;
+    next();
+});
 
 // Après avoir initialisé express()
 app.use(normalizeQuery);

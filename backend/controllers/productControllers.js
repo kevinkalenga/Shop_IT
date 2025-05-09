@@ -6,38 +6,66 @@ import qs from 'qs';
 
 // Get all the products
 export const getProducts = catchAsyncErrors(async (req, res, next) => {
+    const resPerPage = 4;
 
-    const resPerPage = 4
-
-
-
-    // { ...req.query } : copie toutes les clés et valeurs dans un nouvel objet normal, avec prototype standard.
-
-    const normalizedQuery = req.normalizedQuery;
+    // Copier les requêtes
+    const normalizedQuery = qs.parse(req._parsedUrl.query);
     console.log("Requête reçue :", normalizedQuery);
 
-    const apiFilters = new APIFilters(Product.find(), normalizedQuery).search().filters();
-
-
-    let products = await apiFilters.getQuery();
-    let filteredProductsCount = products.length
+    const query = { ...normalizedQuery };
 
 
 
-    apiFilters.pagination(resPerPage)
-    products = await apiFilters.query.clone()
+    // Traitement des prix
+    if (query.price?.gte) {
+        query.price.gte = Number(query.price.gte);
+    }
 
-    res.status(200).json({
+    if (query.price?.lte) {
+        query.price.lte = Number(query.price.lte);
+    }
+
+    let filter = {};
+
+    if (query.price?.gte || query.price?.lte) {
+        filter.price = {};
+        if (query.price.gte) filter.price.$gte = query.price.gte;
+        if (query.price.lte) filter.price.$lte = query.price.lte;
+    }
+
+    if (query.keyword) {
+        filter.name = { $regex: query.keyword, $options: 'i' };
+    }
+
+    const totalProducts = await Product.find(filter);
+
+    const filteredProductsCount = totalProducts.length;
+
+    const products = await Product.find(filter)
+        .limit(resPerPage)
+        .skip(resPerPage * ((query.page || 1) - 1));
+
+    return res.status(200).json({
         resPerPage,
         filteredProductsCount,
-        products
-    })
+        products,
+    });
 });
+
 
 // Create new product => /api/v1/admin/products
 export const newProduct = catchAsyncErrors(async (req, res) => {
 
     req.body.user = req.user._id
+
+    // Explicitly cast price to Number
+    if (req.body.price) {
+        req.body.price = Number(req.body.price);
+    }
+
+    if (isNaN(req.body.price)) {
+        return res.status(400).json({ message: "Invalid price value" });
+    }
 
     const product = await Product.create(req.body)
 
