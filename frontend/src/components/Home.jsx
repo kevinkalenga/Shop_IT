@@ -104,6 +104,8 @@ const Home = () => {
     const page = Number(searchParams.get("page")) || 1;
     const keyword = searchParams.get("keyword") || "";
     const category = searchParams.get("category") || "";
+    const ratings = searchParams.get("ratings");
+
 
     const rawMin = searchParams.get("price[gte]");
     const rawMax = searchParams.get("price[lte]");
@@ -121,6 +123,9 @@ const Home = () => {
     if (min !== undefined) params.min = min;
     if (max !== undefined) params.max = max;
     if (category) params.category = category;
+    if (ratings) params.ratings = Number(ratings);
+
+
 
     console.log("Params envoyés à l'API :", params);
 

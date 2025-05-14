@@ -14,31 +14,35 @@ export const getProducts = catchAsyncErrors(async (req, res, next) => {
 
     const query = { ...normalizedQuery };
 
-
-
     // Traitement des prix
-    if (query.price?.gte) {
-        query.price.gte = Number(query.price.gte);
-    }
-
-    if (query.price?.lte) {
-        query.price.lte = Number(query.price.lte);
-    }
+    if (query.price?.gte) query.price.gte = Number(query.price.gte);
+    if (query.price?.lte) query.price.lte = Number(query.price.lte);
 
     let filter = {};
 
+    // ✅ Filtrage par prix
     if (query.price?.gte || query.price?.lte) {
         filter.price = {};
         if (query.price.gte) filter.price.$gte = query.price.gte;
         if (query.price.lte) filter.price.$lte = query.price.lte;
     }
 
+    // ✅ Filtrage par mot-clé
     if (query.keyword) {
         filter.name = { $regex: query.keyword, $options: 'i' };
     }
 
-    const totalProducts = await Product.find(filter);
+    // ✅ Filtrage par catégorie
+    if (query.category) {
+        filter.category = query.category;
+    }
 
+    // ✅ Filtrage par note minimale
+    if (query.ratings) {
+        filter.ratings = { $gte: Number(query.ratings) };
+    }
+
+    const totalProducts = await Product.find(filter);
     const filteredProductsCount = totalProducts.length;
 
     const products = await Product.find(filter)
