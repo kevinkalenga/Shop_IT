@@ -30,8 +30,7 @@ const Login = () => {
                 <form
                     onSubmit={submitHandler}
                     className="shadow rounded bg-body"
-                    action="your_submit_url_here"
-                    method="post"
+
                 >
                     <h2 className="mb-4">Login</h2>
                     <div className="mb-3">
