@@ -1,19 +1,29 @@
-import React from 'react';
 import Search from "./Search"
 import { useGetMeQuery } from '../../redux/api/userApi';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router';
+import { useLazyLogoutQuery } from '../../redux/api/authApi';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
-    const { data, isLoading } = useGetMeQuery()
+    const { isLoading } = useGetMeQuery()
+    const [logout] = useLazyLogoutQuery()
     const { user } = useSelector(state => state.auth)
+
+    const navigate = useNavigate()
+
+    const logoutHandler = () => {
+        logout()
+        navigate(0)
+    }
+
     return (
         <nav className="navbar row">
             <div className="col-12 col-md-3 ps-5">
                 <div className="navbar-brand">
-                    <a href="/">
+                    <Link to="/">
                         <img src="../images/shopit_logo.png" alt="ShopIT Logo" />
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className="col-12 col-md-6 mt-2 mt-md-0">
@@ -50,12 +60,12 @@ const Header = () => {
 
                                 <Link className="dropdown-item" to="/me/profile"> Profile </Link>
 
-                                <Link className="dropdown-item text-danger" to="/"> Logout </Link>
+                                <Link onClick={logoutHandler} className="dropdown-item text-danger" to="/"> Logout </Link>
                             </div>
                         </div>
 
                     ) : (
-                        isLoading && (
+                        !isLoading && (
                             <Link to="/login" className="btn ms-4" id="login_btn"> Login </Link>
                         )
                     )}

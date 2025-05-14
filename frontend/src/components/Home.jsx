@@ -113,11 +113,7 @@ const Home = () => {
     const min = rawMin !== null ? Number(rawMin) : undefined;
     const max = rawMax !== null ? Number(rawMax) : undefined;
 
-    // const rawMin = searchParams.get("min");
-    // const rawMax = searchParams.get("max");
 
-    // const min = rawMin !== null ? Number(rawMin) : undefined;
-    // const max = rawMax !== null ? Number(rawMax) : undefined;
 
     const params = { page, keyword };
     if (min !== undefined) params.min = min;
@@ -127,7 +123,7 @@ const Home = () => {
 
 
 
-    console.log("Params envoyés à l'API :", params);
+    // console.log("Params envoyés à l'API :", params);
 
     const { data, isLoading, error, isError } = useGetProductsQuery(params);
 

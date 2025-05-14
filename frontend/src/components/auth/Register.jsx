@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useRegisterMutation } from "../../redux/api/authApi"
 import toast from 'react-hot-toast'
+import { useNavigate } from "react-router-dom"
 
 const Register = () => {
 
-    const [register, { isLoading, error, data }] = useRegisterMutation()
-    console.log(register)
+
+    const navigate = useNavigate()
+
+    // console.log(register)
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -14,20 +17,43 @@ const Register = () => {
 
     const { name, email, password } = user
 
+    const [register, { isLoading, error, data }] = useRegisterMutation()
+
 
     useEffect(() => {
-        if (error) {
-            toast.error(error?.data?.message)
+        if (data?.success) {
+            toast.success("Register successfully");
+            navigate('/login');
+            console.log("data", data)
         }
-    }, [error])
 
-    const submitHandler = (e) => {
-        e.preventDefault()
+        if (error) {
+            toast.error(error?.data?.message);
+        }
+    }, [data, error]);
 
-        const signupData = { name, email, password }
+    const submitHandler = async (e) => {
+        e.preventDefault();
 
-        register(signupData)
-    }
+        const signupData = { name, email, password };
+
+        try {
+            const res = await register(signupData).unwrap();
+            toast.success("Inscription réussie !");
+            navigate('/login');
+        } catch (err) {
+            toast.error(err?.data?.message || "Une erreur est survenue");
+        }
+    };
+
+
+    // const submitHandler = (e) => {
+    //     e.preventDefault()
+
+    //     const signupData = { name, email, password }
+
+    //     register(signupData)
+    // }
 
     const onChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value })
