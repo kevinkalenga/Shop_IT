@@ -14,6 +14,7 @@ export const productApi = createApi({
                 params: {
                     page: params?.page,
                     keyword: params?.keyword,
+                    category: params?.category,
                     ...(params?.min !== undefined && { "price[gte]": params.min }),
                     ...(params?.max !== undefined && { "price[lte]": params.max }),
                 }
