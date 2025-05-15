@@ -4,6 +4,8 @@ import Home from './components/Home';
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import ProductDetails from './components/product/ProductDetails'
+import Profile from './components/user/Profile';
+
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Toaster } from 'react-hot-toast';
@@ -21,6 +23,8 @@ function App() {
             <Route path='/product/:id' element={<ProductDetails />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/me/profile' element={<Profile />} />
+
           </Routes>
 
         </div>
