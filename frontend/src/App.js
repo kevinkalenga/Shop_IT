@@ -12,6 +12,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Toaster } from 'react-hot-toast';
 import './App.css';
+import UploadAvatar from './components/user/UploadAvatar';
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
             <Route path='/me/update_profile' element={
               <ProtectedRoute>
                 <UpdateProfile />
+              </ProtectedRoute>
+            } />
+            <Route path='/me/upload_avatar' element={
+              <ProtectedRoute>
+                <UploadAvatar />
               </ProtectedRoute>
             } />
 
