@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Toaster } from 'react-hot-toast';
 import './App.css';
 import UploadAvatar from './components/user/UploadAvatar';
+import UpdatePassword from './components/user/UpdatePassword';
 
 function App() {
   return (
@@ -45,6 +46,11 @@ function App() {
             <Route path='/me/upload_avatar' element={
               <ProtectedRoute>
                 <UploadAvatar />
+              </ProtectedRoute>
+            } />
+            <Route path='/me/update_password' element={
+              <ProtectedRoute>
+                <UpdatePassword />
               </ProtectedRoute>
             } />
 

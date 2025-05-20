@@ -27,7 +27,7 @@ export const userApi = createApi({
             },
             providesTags: ["User"]
         }),
-        UpdateProfile: builder.mutation({
+        updateProfile: builder.mutation({
             query(body) {
                 return {
                     url: "/me/update",
@@ -37,7 +37,7 @@ export const userApi = createApi({
             },
             invalidatesTags: ["User"]
         }),
-        UploadAvatar: builder.mutation({
+        uploadAvatar: builder.mutation({
             query(body) {
                 return {
                     url: "/me/upload_avatar",
@@ -46,10 +46,24 @@ export const userApi = createApi({
                 }
             },
             invalidatesTags: ["User"]
+        }),
+        updatePassword: builder.mutation({
+            query(body) {
+                return {
+                    url: "/password/update",
+                    method: "PUT",
+                    body,
+                }
+            },
+            
         })
 
 
     }),
 });
 
-export const { useGetMeQuery, useUpdateProfileMutation, useUploadAvatarMutation } = userApi;
+export const { useGetMeQuery, 
+         useUpdateProfileMutation, 
+         useUploadAvatarMutation,
+         useUpdatePasswordMutation
+         } = userApi;
