@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRegisterMutation } from "../../redux/api/authApi"
 import toast from 'react-hot-toast'
 import { useNavigate } from "react-router-dom"
+import MetaData from '../layout/MetaData'
 
 const Register = () => {
 
@@ -63,6 +64,9 @@ const Register = () => {
 
 
     return (
+      <>
+
+        <MetaData title={'Register'} />
         <div className="row wrapper">
             <div className="col-10 col-lg-5">
                 <form
@@ -113,7 +117,7 @@ const Register = () => {
                 </form>
             </div>
         </div>
-
+      </>
     )
 }
 

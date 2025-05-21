@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import {toast} from 'react-hot-toast'
 import { useUploadAvatarMutation } from "../../redux/api/userApi"
 import { useSelector } from "react-redux"
+import MetaData from "../layout/MetaData"
 
 
 const UploadAvatar = () => {
@@ -52,6 +53,7 @@ const UploadAvatar = () => {
  
   return (
   <UserLayout >
+      <MetaData title={'Upload Avatar'} />
     <div className="row wrapper">
       <div className="col-10 col-lg-8">
         <form
