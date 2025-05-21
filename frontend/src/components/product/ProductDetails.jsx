@@ -7,12 +7,15 @@ import ReactStars from "react-rating-stars-component";
 
 const ProductDetails = () => {
     const params = useParams()
-
+    
+    const [quantity, setQuantity] = useState(1)
+     const [activeImg, setActiveImg] = useState("")
+    
     const { data, isLoading, error, isError } = useGetProductDetailsQuery(params?.id)
 
     const product = data?.product;
 
-    const [activeImg, setActiveImg] = useState("")
+   
 
     useEffect(() => {
         setActiveImg(product?.images[0] ? product?.images[0]?.url : '/images/default_product.png')
@@ -26,6 +29,24 @@ const ProductDetails = () => {
 
     if (isLoading) return <Loader />
 
+    const increseQty = () => {
+       const count = document.querySelector(".count")
+       if(count.valueAsNumber >= product.stock) return;
+
+       const qty = count.valueAsNumber + 1 
+       setQuantity(qty)
+    }
+
+    const decreseQty = () => {
+         const count = document.querySelector(".count")
+       if(count.valueAsNumber >= product.stock) return;
+
+       const qty = count.valueAsNumber - 1 
+       setQuantity(qty)
+    }
+    
+    
+    
     return (
         <div className="row d-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
@@ -84,14 +105,14 @@ const ProductDetails = () => {
 
                 <p id="product_price">${product?.price}</p>
                 <div className="stockCounter d-inline">
-                    <span className="btn btn-danger minus">-</span>
+                    <span className="btn btn-danger minus" onClick={decreseQty}>-</span>
                     <input
                         type="number"
                         className="form-control count d-inline"
-                        value="1"
+                        value={quantity}
                         readonly
                     />
-                    <span className="btn btn-primary plus">+</span>
+                    <span className="btn btn-primary plus" onClick={increseQty}>+</span>
                 </div>
                 <button
                     type="button"
