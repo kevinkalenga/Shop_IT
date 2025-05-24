@@ -1,13 +1,51 @@
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import MetaData from '../layout/MetaData'
 import { Link } from 'react-router-dom'
 
+import { setCartItem } from '../../redux/features/cartSlice';
+
 const Cart = () => {
+  const dispatch = useDispatch()
   
   const {cartItems} = useSelector((state) => state.cart)
   
+      const increseQty = (item, quantity) => {
+            const newQty = quantity + 1
+            const count = document.querySelector(".count")
+            if(newQty > item?.stock) return;
+     
+            setItemToCart(item, newQty)
+         }
+     
+         const decreseQty = (item, quantity) => {
+             const newQty = quantity - 1
+            const count = document.querySelector(".count")
+            if(newQty <= 0) return;
+     
+            setItemToCart(item, newQty)
+         }
+     
+         const setItemToCart = (item, newQty) => {
+             const cartItem = {
+                 product: item?.product,
+                 name: item?.name,
+                 price: item?.price,
+                 image: item?.image,
+                 stock: item?.stock,
+                 quantity: newQty
+                 
+             }
+     
+             dispatch(setCartItem(cartItem))
+            
+         }
+    
   
-    return (
+  
+  
+  
+  
+  return (
     <>
       <MetaData title={'Your Cart'} />
       {cartItems?.length === 0 ? (
@@ -38,14 +76,14 @@ const Cart = () => {
             </div>
             <div className="col-4 col-lg-3 mt-4 mt-lg-0">
               <div className="stockCounter d-inline">
-                <span className="btn btn-danger minus"> - </span>
+                <span className="btn btn-danger minus" onClick={() => decreseQty(item, item.quantity)}> - </span>
                 <input
                   type="number"
                   className="form-control count d-inline"
                   value={item?.quantity}
                   readonly
                 />
-                <span className="btn btn-primary plus"> + </span>
+                <span className="btn btn-primary plus" onClick={() => increseQty(item, item.quantity)}> + </span>
               </div>
             </div>
             <div className="col-4 col-lg-1 mt-4 mt-lg-0">
