@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import { getNames, getCodeList } from 'country-list' 
 import { useDispatch, useSelector } from "react-redux"
 import { saveShippingInfo } from "../../redux/features/cartSlice";
-
+import { useNavigate } from "react-router";
+import MetaData from "../layout/MetaData";
 const Shipping  = () => {
-  
+    const navigate = useNavigate()
     const dispatch = useDispatch();
 // Pour avoir une liste des noms de pays
 const countryNames = Object.values(getNames())
@@ -27,7 +28,7 @@ console.log(countries) // { AF: 'Afghanistan', AL: 'Albania', ... }
     useEffect(() => {
         if(shippingInfo) {
            setAddress(shippingInfo?.address);
-           setCity(shippingInfo?.country);
+           setCity(shippingInfo?.city);
            setZipCode(shippingInfo?.zipCode);
            setPhoneNo(shippingInfo?.phoneNo);
            setCountry(shippingInfo?.country);
@@ -37,12 +38,14 @@ console.log(countries) // { AF: 'Afghanistan', AL: 'Albania', ... }
     const submitHandler = (e) => {
        e.preventDefault() 
        dispatch(saveShippingInfo({address, city, phoneNo, zipCode, country}))
+       navigate('/confirm_order')
     }
   
   
   
     return (
-    
+        <> 
+         <MetaData title={"Shipping Info"} />
          <div className="row wrapper mb-5">
               <div className="col-10 col-lg-5">
                     <form
@@ -126,7 +129,7 @@ console.log(countries) // { AF: 'Afghanistan', AL: 'Albania', ... }
                     </form>
               </div>
          </div>
-
+        </>
 
 
    )
