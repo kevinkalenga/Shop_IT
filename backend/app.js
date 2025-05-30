@@ -36,10 +36,12 @@ app.use(normalizeQuery);
 import productRoutes from './routes/productRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import paymentRoutes from './routes/paymentRoutes.js'
 
 app.use("/api/v1", productRoutes)
 app.use("/api/v1", authRoutes)
 app.use("/api/v1", orderRoutes)
+app.use("/api/v1", paymentRoutes)
 
 // Using error middleware 
 app.use(errorMiddleware);
